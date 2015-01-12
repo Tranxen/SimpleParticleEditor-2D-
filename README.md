@@ -2,7 +2,6 @@
 Moteur de particule + editeur (à l'aide d'un fichier)
 
 Compilation : compile.sh (requiert glfw et SOIL)
-Execution   : peditor -f <nom de fichier fps>
 
 Syntaxe de fichier fps
 ----------------------
