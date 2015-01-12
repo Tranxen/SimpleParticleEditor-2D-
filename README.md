@@ -30,4 +30,5 @@ L'option "time" n'est pas valide si \<min time\> ou \<max time\> est inférieur 
 PROCHAINEMENT : 
 
 Ajout de l'option "endScale" et "endColor"
+
 Ajout de l'option "fadeIn" et "fadeOut". "FadeOut" est déjà implémenté mais ne peut pour l'instant pas être desactivé.
