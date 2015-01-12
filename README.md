@@ -12,7 +12,7 @@ Compilation : compile.sh (requiert glfw et SOIL)
 | force         | min_force_x min_force_y max_force_x max_force_y | |
 | size          | min_size max_size | |
 | color         | min_R min_G min_B max_R max_G max_B | |
-| gravity       | x y | | 
+| gravity       | \<x\> y | | 
 | lifetime      | min_time max_time | |
  
  
