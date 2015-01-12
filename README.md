@@ -2,9 +2,11 @@
 Moteur de particule + editeur (à l'aide d'un fichier)
 
 Compilation : compile.sh (requiert glfw et SOIL)
+Exécution : peditor \-f <fichier fps>
 
+_Syntaxe du fichier_
 
-| KEY        | VALUE           | DESCRIPTION  |
+| KEY        | VALUE           | DESCRIPTION |
 | ------------- |:-------------:| -----:|
 | count         | \<nombre departicules\>                                         |  |
 | spawnbox      | \<min x\> \<min y\> \<max x\> \<max y\>                         |   |
