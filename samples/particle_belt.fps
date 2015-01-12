@@ -1,4 +1,5 @@
 count 1500
+spawnrate 100
 spawncircle 0.2 0.2
 force 2.0 0.0 3.0 0.0
 size 0.2 0.4

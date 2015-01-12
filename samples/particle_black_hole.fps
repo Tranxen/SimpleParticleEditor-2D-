@@ -1,10 +1,11 @@
 count 2500
-spawncircle 7.0 7.0
-force 2.0 0.0 3.0 0.0
+spawncircle 7.0 8.0
+spawnrate 125
+force 0.0 0.0 0.0 0.0
 size 0.2 0.4
 color 0 0 0 255 255 255
 gravity 0.0 0.0
-lifetime 14500 14600
+lifetime 1500 1600
 magnet_point 0.0 0.0
 end
 scale_time 1

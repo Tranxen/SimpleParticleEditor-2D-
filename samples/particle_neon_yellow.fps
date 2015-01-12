@@ -1,5 +1,6 @@
 count 500
 spawnbox -5.0 0.0 5.0 0.0
+spawnrate 25
 force -5.0 -5.0 5.0 5.0
 size 0.7 2.0
 color 400 255 100 400 255 100

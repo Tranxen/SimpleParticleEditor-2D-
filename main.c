@@ -226,6 +226,9 @@ int main(int argc, char** argv){
 
     running = !glfwGetKey(context, GLFW_KEY_ESCAPE );
 
+    if(glfwGetKey(context, GLFW_KEY_R)){
+      particle_system_reset(particle);
+    }
     
     if(glfwGetKey(context, GLFW_KEY_SPACE )){
       int i = 0;
@@ -261,7 +264,9 @@ int main(int argc, char** argv){
     dt = finBoucle - debutBoucle;
 
     char winname[25];
-    sprintf(winname, "FabiEngine - FPS : %4.2f \0", 1/dt); 
+    sprintf(winname, "FabiEngine - FPS : %4.2f - pp:%d/%d \0", 1/dt, (int)particle->nbspawned, particle->count);
+
+    
     glfwSetWindowTitle(context, winname);
 
   }

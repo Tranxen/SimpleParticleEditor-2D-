@@ -7,11 +7,13 @@
 
 static float angle_progress = 0.0f;
 
+static float particle_resid = 0.0f;
+
 void particle_system_gl_update(struct particle_system_t* tmp){
 
   int i = 0;
 
-  for(i = 0; i < tmp->count; i++){
+  for(i = 0; i < (int)tmp->nbspawned/*tmp->count*/; i++){
 
     //printf("BAIN\n");
 
@@ -84,11 +86,13 @@ void particle_system_gl_update(struct particle_system_t* tmp){
 
 }
 
-void particle_system_init(struct particle_system_t* tmp){
+void particle_system_reset(struct particle_system_t* tmp){
 
   int i = 0;
 
   float vel[2];
+
+  tmp->nbspawned = 0.0f;
 
   float lifeinc = 0.0f;
   float liferation = tmp->ltmax / tmp->count;
@@ -112,10 +116,57 @@ void particle_system_init(struct particle_system_t* tmp){
     //tmp->particle[i].col[0] = 2.0f;
 
     tmp->particle[i].siz = (getRandomValue((int)(tmp->sizemin*10), (int)(tmp->sizemax*10)))/10.0f;
-     
+
+    if(tmp->reg1[0] == 1.0){ // SPAWN BOX
+	
+      float ppx = (getRandomValue((int)(tmp->reg1[1]*1000), (int)(tmp->reg1[3]*1000)))/1000.0f;
+      float ppy = (getRandomValue((int)(tmp->reg1[2]*1000), (int)(tmp->reg1[4]*1000)))/1000.0f;
+
+      tmp->particle[i].pos[0] += ppx;
+      tmp->particle[i].pos[1] += ppy;
+	
+    }
+    else if(tmp->reg1[0] == 2.0){ // SPAWN CIRCLE
+	
+      float radius = (getRandomValue((int)(tmp->reg1[1]*1000), (int)(tmp->reg1[2]*1000)))/1000.0f;
+      float angle = (getRandomValue(0, (int)(6.28f*1000)))/1000.0f;
+	
+      float ppx = radius*cosf(angle);
+      float ppy = radius*sinf(angle);
+	
+      tmp->particle[i].pos[0] += ppx;
+      tmp->particle[i].pos[1] += ppy;
+	
+    }
+    else if(tmp->reg1[0] == 3.0){ // SPAWN SIN
+
+      //axe, &tmp->reg1[2], &tmp->reg1[3], &tmp->reg1[4], &tmp->reg1[5]);
+
+      float ppx = (getRandomValue((int)(tmp->reg1[2]*1000), (int)(tmp->reg1[3]*1000)))/1000.0f;
+      float angle = (getRandomValue(0, (int)(6.28f*1000)))/1000.0f;
+
+      float tmp1 = fabs(tmp->reg1[2] - tmp->reg1[3]);
+      float tmp2 = ppx*(6.28f / tmp1);
+	
+
+      float ppy = tmp->reg1[4]*sinf(tmp->reg1[5]*tmp2);
+      //float ppy = tmp->reg1[4]*sinf(tmp->reg1[5]*angle_progress);
+
+      if(tmp->reg1[1] == 0){
+	tmp->particle[i].pos[0] += ppx;
+	tmp->particle[i].pos[1] += ppy;
+      }
+      else{
+	tmp->particle[i].pos[0] += ppy;
+	tmp->particle[i].pos[1] += ppx;
+      }
+	
+    }
 
   }
 
+  particle_system_gl_update(tmp);
+  
 }
 
 struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, char* f){
@@ -130,6 +181,7 @@ struct particle_system_t* particle_system_create(float x, float y, int texture, 
   tmp->colormax[0] = 0.0f; tmp->colormax[1] = 0.0f; tmp->colormax[2] = 0.0f;
   tmp->ltmin = 0.0f; tmp->ltmax = 0.0f;
   tmp->sizemin = 0.0f; tmp->sizemax = 0.0f;
+  tmp->spawnrate = 1;
 
   tmp->tex = texture;
   //tmp->uv[0] = uv[0];tmp->uv[1] = uv[1];tmp->uv[2] = uv[2];
@@ -180,9 +232,9 @@ struct particle_system_t* particle_system_create(float x, float y, int texture, 
 
   printf("--\n");
 
-  particle_system_init(tmp);
+  particle_system_reset(tmp);
 
-  particle_system_gl_update(tmp);
+  
 
   return tmp;
 
@@ -194,7 +246,13 @@ void particle_system_update(struct particle_system_t* ps, float dt){
 
   angle_progress += dt;
 
-  for(i = 0; i < ps->count; i++){
+  ps->nbspawned += ps->spawnrate*dt;
+
+  ps->nbspawned = (ps->nbspawned >= ps->count) ? ps->count : ps->nbspawned;
+
+  //printf("pp : %d\n", (int)ps->nbspawned);
+
+  for(i = 0; i < (int)ps->nbspawned; i++){
     
     ps->particle[i].life -= dt;
 
@@ -340,7 +398,7 @@ void particle_system_draw(struct particle_system_t* ps, mat4x4 p,  mat4x4 m, int
   
   glBindTexture(GL_TEXTURE_2D, ps->tex);
   
-  glDrawArrays(GL_QUADS, 0, 4*ps->count);
+  glDrawArrays(GL_QUADS, 0, 4*(int)ps->nbspawned/*ps->count*/);
   
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -394,6 +452,11 @@ int parser_read(const char* filename, struct particle_system_t* ps){
   
     if(strcmp(lineHeader, "count") == 0){
       fscanf(fd, "%d\n", &ps->count);
+      continue;
+    }
+
+    if(strcmp(lineHeader, "spawnrate") == 0){
+      fscanf(fd, "%d\n", &ps->spawnrate);
       continue;
     }
 

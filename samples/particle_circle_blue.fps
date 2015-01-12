@@ -1,5 +1,6 @@
 count 500
 spawncircle 5.0 5.0 
+spawnrate 25
 force -5.0 -5.0 5.0 5.0
 size 0.7 2.0
 color 100 255 400 100 255 400

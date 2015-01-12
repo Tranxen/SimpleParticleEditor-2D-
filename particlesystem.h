@@ -23,6 +23,9 @@ struct particle_t{
 struct particle_system_t{
   
   int count;
+  int spawnrate;
+  float nbspawned;
+  
   struct particle_t* particle;
   float pos[2];
   float gravity[2];
@@ -52,11 +55,12 @@ struct particle_system_t{
 };
 
 void particle_system_gl_update(struct particle_system_t* ps);
-void particle_system_init(struct particle_system_t* ps);
+void particle_system_reset(struct particle_system_t* ps);
 struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, char* f);
 void particle_system_update(struct particle_system_t* ps, float dt);
 void particle_system_draw(struct particle_system_t* ps, mat4x4 p,mat4x4 m, int shdID);
 void particle_system_destroy(struct particle_system_t* ps);
 int parser_read(const char* filename, struct particle_system_t* ps);
+
 
 #endif
