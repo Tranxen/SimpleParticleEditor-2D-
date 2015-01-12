@@ -11,6 +11,7 @@ _Syntaxe du fichier_
 | ------------- |:-------------:| -----:|
 | count         | \<nombre departicules\>                                         |  |
 | spawnbox      | \<min x\> \<min y\> \<max x\> \<max y\>                         |   |
+| spawnrate      | \<nb particule par seconde\>                          |   |
 | spawncircle   | \<min radius\> \<max radius\>                                   |     |
 | spawnsin      | \<x/y\> \<p1\> \<p2\> \<amp\> \<freq\>                          |     |
 | force         | \<min force x\> \<min force y\> \<max force x\> \<max force y\> | |
@@ -18,7 +19,14 @@ _Syntaxe du fichier_
 | color         | \<min R\> \<min G\> \<min B\> \<max R\> \<max G\> \<max B\>     | |
 | gravity       | \<x\> \<y\>                                                     | | 
 | lifetime      | \<min time\> \<max time\>                                       | |
-| magnet_point  | \<x\> \<y\>                                                     |    |
+| magnet_point  | \<x\> \<y\>                                                     | en milliseconde   |
 | end           |                                                                 | fin du fichier (facultatif)
  
 
+BUGS : 
+
+L'option "time" n'est pas valide si \<min time\> ou \<max time\> est inférieur à 1000 ms
+
+PROCHAINEMENT : 
+
+Ajout de l'option "endScale" et "endColor"
