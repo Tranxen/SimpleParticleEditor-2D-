@@ -118,12 +118,10 @@ void particle_system_init(struct particle_system_t* tmp){
 
 }
 
-struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, int nb){
+struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, char* f){
 
   struct particle_system_t* tmp = malloc(sizeof(struct particle_system_t));
-  
-  tmp->count = nb; // cette ligne est totalement inutile
-  
+   
   tmp->pos[0] = x; tmp->pos[1] = y;
   tmp->gravity[0] = 0.0f; tmp->gravity[1] = 0.0f;
   tmp->forcemin[0] = 0.0f; tmp->forcemin[1] = 0.0f;
@@ -136,7 +134,23 @@ struct particle_system_t* particle_system_create(float x, float y, int texture, 
   tmp->tex = texture;
   //tmp->uv[0] = uv[0];tmp->uv[1] = uv[1];tmp->uv[2] = uv[2];
 
-  parser_read("particle.fps", tmp);
+  FILE* fd = NULL;
+
+  char filename[512];
+
+  memset(filename, '\0', 512);
+  
+  
+  if(f){
+    strcat(filename, f);
+  }else{
+    strcat(filename, "default.fps");
+  }
+    
+  int retval = 0;
+  retval = parser_read(filename, tmp);
+
+  if(retval == -1) return NULL;
 
   tmp->particle = malloc(sizeof(struct particle_t)*tmp->count);
 

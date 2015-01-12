@@ -53,7 +53,7 @@ struct particle_system_t{
 
 void particle_system_gl_update(struct particle_system_t* ps);
 void particle_system_init(struct particle_system_t* ps);
-struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, int nb);
+struct particle_system_t* particle_system_create(float x, float y, int texture, float* uv, char* f);
 void particle_system_update(struct particle_system_t* ps, float dt);
 void particle_system_draw(struct particle_system_t* ps, mat4x4 p,mat4x4 m, int shdID);
 void particle_system_destroy(struct particle_system_t* ps);

@@ -49,6 +49,7 @@ void drawLine(mat4x4 p, mat4x4 m, vec3 p1, vec3 p2, vec3 col, struct shader_t* s
 
 }
 
+
 int main(int argc, char** argv){
 
   // ============================ INIT ==============================
@@ -161,7 +162,25 @@ int main(int argc, char** argv){
 
   int running = 1;
 
-  struct particle_system_t* particle = particle_system_create(0.0f, 0.0f, particleTex , NULL, 10);
+  char* foption = NULL;
+
+ 
+  if(argv[1] != NULL && strcmp(argv[1], "-f") == 0){
+
+    printf("option detecte\n");
+    foption = malloc(sizeof(char)*255);
+    memset(foption, '\0', 255);
+    if(argv[2] != NULL)
+      strcat(foption, argv[2]);
+    else{
+      foption = NULL;
+      printf("Erreur: \t-f attend un argument\n\t\t peditor -f <fichier>\n");
+      return -1;
+    }
+
+  }
+  
+  struct particle_system_t* particle = particle_system_create(0.0f, 0.0f, particleTex , NULL, foption);
 
   glEnable (GL_DEPTH_TEST);
 
