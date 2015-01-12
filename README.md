@@ -18,8 +18,8 @@ _Syntaxe du fichier_
 | size          | \<min size\> \<max size\>                                       | |
 | color         | \<min R\> \<min G\> \<min B\> \<max R\> \<max G\> \<max B\>     | |
 | gravity       | \<x\> \<y\>                                                     | | 
-| lifetime      | \<min time\> \<max time\>                                       | |
-| magnet_point  | \<x\> \<y\>                                                     | en milliseconde   |
+| lifetime      | \<min time\> \<max time\>                                       | en milliseconde|
+| magnet_point  | \<x\> \<y\>                                                     |    |
 | end           |                                                                 | fin du fichier (facultatif)
  
 
