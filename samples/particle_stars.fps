@@ -1,0 +1,11 @@
+count 500
+force -5.0 -5.0 5.0 5.0
+size 0.3 1.0
+color 400 255 100 400 255 100
+gravity 0.0 0.0
+lifetime 1500 4100
+end
+scale_time 1
+color_time 0 0 255
+options FiFo
+end

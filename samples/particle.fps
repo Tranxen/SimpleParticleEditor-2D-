@@ -1,0 +1,19 @@
+count 1500
+spawnbox -1.0 0.0 -1.0 0.0
+force 0.0 5.0 0.0 5.0
+size 0.2 0.3
+color 400 100 50 400 155 50
+gravity 0.0 0.0
+lifetime 16300 16400
+magnet_point 1.0 0.0
+end
+
+
+scale_time 1
+color_time 0 0 255
+options FiFo
+spawnsin 0.0 -3.0 3.0 2.0 1.0
+spawnbox -5.0 0.0 -5.0 0.0
+magnet_point 0.0 1.0
+spawncircle 0.2 0.2
+end
