@@ -1,12 +1,13 @@
-count 1500
+count 300
 spawnrate 150
-spawnbox -2.0 0.0 2.0 0.0
-force -5.0 -5.0 5.0 5.0
-size 0.7 2.0
+spawnbox -1.0 0.0 1.0 0.0
+force -3.0 0.0 3.0 0.0
+size 1.0 1.0
 color 255 100 50 400 100 50
-gravity 0.0 -10.0
-lifetime 1500 1600
-magnet_point 0.0 0.0
+gravity 0.0 0.0
+lifetime 1000 1400
+magnet_point 0.0 3.0
+endscale 0.5
 end
 scale_time 1
 color_time 0 0 255

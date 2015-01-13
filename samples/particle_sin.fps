@@ -1,14 +1,11 @@
-count 500
-spawnrate 40
+count 1500
+spawnrate 250
 spawnsin 0.0 -7.0 7.0 2.0 3.0
 force 0.0 0.0 0.0 0.0
 size 0.2 0.3
-color 20 255 30 20 255 50
-gravity 0.0 -5.0
+color 25 255 50 50 375 75
+gravity 0.0 5.0
 lifetime 900 910
+endscale 0.0
 end
-scale_time 1
-color_time 0 0 255
 
-options FiFo
-end

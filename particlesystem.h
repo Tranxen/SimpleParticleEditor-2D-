@@ -15,7 +15,7 @@ struct particle_t{
   float siz;
   float rot;
 
-  float size_factor;
+  float scale_factor;
   float color_factor[3];
 };
 
@@ -37,6 +37,7 @@ struct particle_system_t{
   float ltmax;
   float sizemin;
   float sizemax;
+  float endscale;
 
   int tex;
   float uv[3];
@@ -51,6 +52,10 @@ struct particle_system_t{
 
   float reg1[8];
   float reg2[8];
+
+  // FLAGS
+
+  int flags;
 
 };
 

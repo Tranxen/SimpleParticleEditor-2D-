@@ -5,8 +5,9 @@ force 0.0 0.0 0.0 0.0
 size 0.2 0.4
 color 0 0 0 255 255 255
 gravity 0.0 0.0
-lifetime 1500 1600
+lifetime 1200 1300
 magnet_point 0.0 0.0
+endscale 0.0
 end
 scale_time 1
 color_time 0 0 255

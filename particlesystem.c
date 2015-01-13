@@ -101,7 +101,8 @@ void particle_system_reset(struct particle_system_t* tmp){
 
     tmp->particle[i].pos[0] = tmp->pos[0];tmp->particle[i].pos[1] = tmp->pos[1];
     
-    tmp->particle[i].life = (getRandomValue((int)(0), (int)(tmp->ltmin*100)))/100.0f;
+    //tmp->particle[i].life = (getRandomValue((int)(0), (int)(tmp->ltmin*100)))/100.0f;
+    tmp->particle[i].life = (getRandomValue((int)(tmp->ltmin*1000.0f), (int)(tmp->ltmax*1000.0f)))/1000.0f;
 
     //tmp->particle[i].life = lifeinc; lifeinc += liferation;
     
@@ -116,6 +117,15 @@ void particle_system_reset(struct particle_system_t* tmp){
     //tmp->particle[i].col[0] = 2.0f;
 
     tmp->particle[i].siz = (getRandomValue((int)(tmp->sizemin*10), (int)(tmp->sizemax*10)))/10.0f;
+
+    float targeted_size = tmp->particle[i].siz * tmp->endscale;
+    //printf("targeted_size : %f\n", targeted_size);
+
+    float delta = tmp->particle[i].siz - targeted_size;
+    //printf("delta : %f\n", delta);
+    
+    tmp->particle[i].scale_factor = (delta/tmp->particle[i].life);
+    //printf("scale_factor : %f\n", tmp->particle[i].scale_factor);
 
     if(tmp->reg1[0] == 1.0){ // SPAWN BOX
 	
@@ -182,6 +192,7 @@ struct particle_system_t* particle_system_create(float x, float y, int texture, 
   tmp->ltmin = 0.0f; tmp->ltmax = 0.0f;
   tmp->sizemin = 0.0f; tmp->sizemax = 0.0f;
   tmp->spawnrate = 1;
+  tmp->endscale = 1.0f;
 
   tmp->tex = texture;
   //tmp->uv[0] = uv[0];tmp->uv[1] = uv[1];tmp->uv[2] = uv[2];
@@ -254,14 +265,15 @@ void particle_system_update(struct particle_system_t* ps, float dt){
 
   for(i = 0; i < (int)ps->nbspawned; i++){
     
+    ps->particle[i].siz -= ps->particle[i].scale_factor*dt;
+
     ps->particle[i].life -= dt;
-
-    //ps->particle[i].siz *= 0.975f;
-
+    
     if(ps->particle[i].life <= 0.5f){
       ps->particle[i].alpha = ps->particle[i].life * 2.0f;
     }
-
+    
+    
     /*
     if(ps->particle[i].siz <= 0.01f)
       ps->particle[i].life = 0.0f;
@@ -272,8 +284,18 @@ void particle_system_update(struct particle_system_t* ps, float dt){
 
     if(ps->particle[i].life <= 0.0f){
 
-      ps->particle[i].life = (getRandomValue((int)(ps->ltmin*1000), (int)(ps->ltmax*1000)))/1000.0f;
+      ps->particle[i].life = (getRandomValue((int)(ps->ltmin*1000.0f), (int)(ps->ltmax*1000.0f)))/1000.0f;
+
       ps->particle[i].siz = (getRandomValue((int)(ps->sizemin*10), (int)(ps->sizemax*10)))/10.0f;
+
+
+      float targeted_size = ps->particle[i].siz * ps->endscale;
+
+      float delta = ps->particle[i].siz - targeted_size;
+    
+      ps->particle[i].scale_factor = (delta/ps->particle[i].life);
+
+      
       ps->particle[i].vel[0] = (getRandomValue((int)(ps->forcemin[0]*10), (int)(ps->forcemax[0]*10)))/10.0f;
       ps->particle[i].vel[1] = (getRandomValue((int)(ps->forcemin[1]*10), (int)(ps->forcemax[1]*10)))/10.0f;
       ps->particle[i].vel[2] = (getRandomValue((int)(ps->forcemin[2]*10), (int)(ps->forcemax[2]*10)))/10.0f;
@@ -499,9 +521,9 @@ int parser_read(const char* filename, struct particle_system_t* ps){
       int tmax;
       
       fscanf(fd, "%d %d\n", &tmin, &tmax);
-      ps->ltmin = (float)(tmin / 1000);
-      ps->ltmax = (float)(tmax / 1000);
-      
+      ps->ltmin = (float)(tmin / 1000.0f);
+      ps->ltmax = (float)(tmax / 1000.0f);
+     
       continue;
     }
 
@@ -552,6 +574,11 @@ int parser_read(const char* filename, struct particle_system_t* ps){
       continue;
       
     }
+
+    if(strcmp(lineHeader, "endscale") == 0){
+      fscanf(fd, "%f\n", &ps->endscale);
+      continue;
+    }
     
   }
 
@@ -564,7 +591,7 @@ int parser_read(const char* filename, struct particle_system_t* ps){
 	 ps->colormax[0], ps->colormax[1], ps->colormax[2]);
   printf("gravity : %f / %f\n", ps->gravity[0], ps->gravity[1]);
   printf("lifetime : %f - %f\n", ps->ltmin, ps->ltmax);
-
+  printf("endscale : %f\n", ps->endscale);
   printf("\n\n");
   
 
